@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  run-script:
+    cmds:
+      - python3 delete-resources.py
+      - python3 create-loadbalancer.py
+      - python3 create-autoscaling-group.py
