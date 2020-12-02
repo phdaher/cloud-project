@@ -2,6 +2,22 @@ import boto3
 
 client = boto3.client('ec2', region_name='us-west-2')
 
+asg_client = boto3.client('autoscaling', region_name='us-west-2')
+
+as_groups = asg_client.describe_auto_scaling_groups(AutoScalingGroupNames=['auto-scaling-group-daher'])['AutoScalingGroups']
+if len(as_groups) == 1:
+    asg_client.delete_auto_scaling_group(
+        AutoScalingGroupName='auto-scaling-group-daher', ForceDelete=True)
+    waiter = client.get_waiter('instance_terminated')
+    waiter.wait(Filters=[{'Name': 'tag:Name', 'Values': ['django-daher']}])
+    print('Instances terminated.')
+
+launch_configs = asg_client.describe_launch_configurations(LaunchConfigurationNames=['launch-config-daher'])['LaunchConfigurations']
+if len(launch_configs) == 1:
+    asg_client.delete_launch_configuration(
+        LaunchConfigurationName='launch-config-daher')
+
+
 images = client.describe_images(
     Filters=[{'Name': 'name', 'Values': ['ami-daher']}])['Images']
 if len(images) == 1:

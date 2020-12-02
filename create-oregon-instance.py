@@ -24,4 +24,8 @@ instance = ec2.create_instances(
 ec2.create_tags(Resources=[instance.id], Tags=[
                 {'Key': 'Name', 'Value': 'oregon-daher'}, {'Key': 'Creator', 'Value': 'Daher'}])
 
+ec2_client = boto3.client('ec2', region_name='us-west-2')
+waiter = ec2_client.get_waiter('instance_status_ok')
+waiter.wait(InstanceIds=[instance.id])
+
 print("Created instance", instance.id)

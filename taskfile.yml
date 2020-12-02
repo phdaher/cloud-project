@@ -12,8 +12,13 @@ tasks:
       - python3 create-oregon-security-group.py
       - python3 create-oregon-instance.py
       - python3 create-oregon-ami.py
-  run-script:
+  lb-script:
     cmds:
-      - python3 delete-resources.py
+      - python3 delete-lb-resources.py
       - python3 create-loadbalancer.py
       - python3 create-autoscaling-group.py
+  full-script:
+    cmds:
+      - task: ohio-script
+      - task: ami-script
+      - task: lb-script

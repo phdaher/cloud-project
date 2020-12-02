@@ -8,22 +8,35 @@ instances = ohio_client.describe_instances(Filters=[
 if len(instances) == 1:
     ohio_publicIP = instances[0]['Instances'][0]['PublicIpAddress']
 print(ohio_publicIP)
-# -------
+
 
 client = boto3.client('autoscaling', region_name='us-west-2')
 
 user_data = """#!/bin/bash
 cd /tasks/portfolio
-sed ------------------
+sed -i "s/node1/{0}/g" settings.py
 cd /tasks
 ./run.sh
-"""
+""".format(ohio_publicIP)
+
+oregon_client = boto3.client('ec2', region_name='us-west-2')
+
+images = oregon_client.describe_images(
+    Filters=[{'Name': 'name', 'Values': ['ami-daher']}])['Images']
+if len(images) == 1:
+    imageId = images[0]['ImageId']
+    print("Using image", imageId)
+
+groups = oregon_client.describe_security_groups(
+    Filters=[{'Name': 'group-name', 'Values': ['SSH-DJANGO']}])['SecurityGroups']
+if len(groups) == 1:
+    groupId = groups[0]['GroupId']
+    print("Using security group", groupId)
 
 launchConfig = client.create_launch_configuration(
     LaunchConfigurationName='launch-config-daher',
-    ImageId='ami-0acdb352a689a862f',
-    KeyName='daher-key',
-    SecurityGroups=['sg-0a2ccd80448aae5e0'],
+    ImageId=imageId,
+    SecurityGroups=[groupId],
     UserData=user_data,
     InstanceType='t2.micro',
     InstanceMonitoring={'Enabled': False},
