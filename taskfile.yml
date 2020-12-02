@@ -1,6 +1,11 @@
 version: '3'
 
 tasks:
+  ohio-script:
+    cmds:
+      - python3 delete-ohio-resources.py
+      - python3 create-ohio-security-group.py
+      - python3 create-ohio-instance.py
   run-script:
     cmds:
       - python3 delete-resources.py

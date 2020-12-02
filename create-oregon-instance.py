@@ -18,7 +18,6 @@ instance = ec2.create_instances(
     MinCount=1,
     MaxCount=1,
     InstanceType='t2.micro',
-    KeyName='daher-key',
     SecurityGroups=['SSH-DJANGO'],
     UserData=user_data
 )[0]
