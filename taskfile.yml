@@ -22,3 +22,6 @@ tasks:
       - task: ohio-script
       - task: ami-script
       - task: lb-script
+  client-requests:
+    cmds:
+      - python3 client-requests.py

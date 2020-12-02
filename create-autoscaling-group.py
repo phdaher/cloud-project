@@ -53,4 +53,4 @@ response = client.attach_load_balancers(
     LoadBalancerNames=['loadbalancer-daher']
 )
 
-print(response)
+print("Script finalizado!")
