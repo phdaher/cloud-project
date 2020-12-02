@@ -13,7 +13,6 @@ shutdown -r now
 
 # create a new EC2 instance
 instance = ec2.create_instances(
-    # ImageId='ami-0dd9f0e7df0f0a138',
     ImageId='ami-0ac73f33a1888c64a',
     MinCount=1,
     MaxCount=1,
@@ -23,6 +22,6 @@ instance = ec2.create_instances(
 )[0]
 
 ec2.create_tags(Resources=[instance.id], Tags=[
-                {'Key': 'Name', 'Value': 'django-daher'}, {'Key': 'Creator', 'Value': 'Daher'}])
+                {'Key': 'Name', 'Value': 'oregon-daher'}, {'Key': 'Creator', 'Value': 'Daher'}])
 
 print("Created instance", instance.id)

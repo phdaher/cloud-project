@@ -6,6 +6,12 @@ tasks:
       - python3 delete-ohio-resources.py
       - python3 create-ohio-security-group.py
       - python3 create-ohio-instance.py
+  ami-script:
+    cmds:
+      - python3 delete-oregon-resources.py
+      - python3 create-oregon-security-group.py
+      - python3 create-oregon-instance.py
+      - python3 create-oregon-ami.py
   run-script:
     cmds:
       - python3 delete-resources.py

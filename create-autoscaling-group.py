@@ -1,9 +1,21 @@
 import boto3
 
+# Get ohio instance public ip
+ohio_client = boto3.client('ec2', region_name='us-east-2')
+instances = ohio_client.describe_instances(Filters=[
+    {'Name': 'tag:Name', 'Values': ['postgres-daher']},
+    {'Name': 'instance-state-name', 'Values': ['running']}])['Reservations']
+if len(instances) == 1:
+    ohio_publicIP = instances[0]['Instances'][0]['PublicIpAddress']
+print(ohio_publicIP)
+# -------
+
 client = boto3.client('autoscaling', region_name='us-west-2')
 
 user_data = """#!/bin/bash
-cd tasks
+cd /tasks/portfolio
+sed ------------------
+cd /tasks
 ./run.sh
 """
 
